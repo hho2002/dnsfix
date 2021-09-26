@@ -75,17 +75,22 @@ func main() {
 		msg = "all dns detect failed"
 		return
 	}
+
+	fmt.Println()
+	fmt.Println(localDnsText)
+
 	hostsOld := readHosts()
 	if hostsOld == "" {
 		msg = "read hosts fail"
 		return
 	}
 
-	hostsNew := ReplaceHosts(hostsOld, localDnsText)
-	if err := saveHosts(hostsNew); err != nil {
-		msg = "write hosts fail, need admin permission"
-		return
-	}
+//	hostsNew := ReplaceHosts(hostsOld, localDnsText)
+//	fmt.Println(hostsNew)
+//	if err := saveHosts(hostsNew); err != nil {
+//		msg = "write hosts fail, need admin permission"
+//		return
+//	}
 	if err := flushDns(); err != nil {
 		fmt.Println(err)
 		msg = "flush dns fail"

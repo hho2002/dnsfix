@@ -3,8 +3,16 @@ package main
 import (
 	"errors"
 	"fmt"
+	"golang.org/x/text/encoding/simplifiedchinese"
 	"os/exec"
 	"strings"
+)
+
+type Charset string
+
+const (
+	UTF8    = Charset("UTF-8")
+	GB18030 = Charset("GB18030")
 )
 
 func ReplaceHosts(old string, content string) string {
@@ -36,6 +44,21 @@ func flushDns() error {
 
 	buf, err := cmd.CombinedOutput()
 
-	fmt.Printf("%s \n", buf)
+	byte2String := ConvertByte2String([]byte(buf), "GB18030")
+	fmt.Printf("%s \n", byte2String)
 	return err
+}
+
+func ConvertByte2String(byte []byte, charset Charset) string {
+	var str string
+	switch charset {
+	case GB18030:
+		var decodeBytes, _ = simplifiedchinese.GB18030.NewDecoder().Bytes(byte)
+		str = string(decodeBytes)
+	case UTF8:
+		fallthrough
+	default:
+		str = string(byte)
+	}
+	return str
 }
