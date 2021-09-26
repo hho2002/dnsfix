@@ -146,6 +146,7 @@ func dnsQuery(ch chan A, wg *sync.WaitGroup, domain string, dnsIp string) {
 		record, isType := ans.(*dns.A)
 		if isType {
 			ip := record.A.String()
+			fmt.Println("ping: ", domain, ip)
 			_, _, avg := pingTtl(ip)
 			if avg == DefaultMaxNanoSeconds {
 				fmt.Println(domain, ip, "no response")

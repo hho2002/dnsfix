@@ -80,7 +80,7 @@ func pingTtl(ip string) (int, int, int) {
 		buf := make([]byte, 65535)
 		_, err = conn.Read(buf)
 		if err != nil {
-			fmt.Println(err)
+			//fmt.Println(err)
 			continue
 		}
 		et := int(time.Since(t1).Nanoseconds())
