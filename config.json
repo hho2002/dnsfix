@@ -1,6 +1,8 @@
 {
     "domains": [
         "github.com",
+        "gist.github.com",
+        "api.github.com",
         "nodeload.github.com",
         "codeload.github.com",
         "training.github.com",
@@ -26,14 +28,6 @@
         [
             "1.2.4.8",
             "210.2.4.8"
-        ],
-        [
-            "123.125.81.6",
-            "140.207.198.6"
-        ],
-        [
-            "101.226.4.6",
-            "218.30.118.6"
         ],
         [
             "223.5.5.5",

@@ -67,7 +67,7 @@ func main() {
 			continue
 		}
 		sort.Sort(a)
-		localDnsSb.WriteString(fmt.Sprintf("%s\t%s\t# %d\n", a[0].Ip, addr, a[0].Ttl))
+		localDnsSb.WriteString(fmt.Sprintf("%s\t%s\t# %d %s\n", a[0].Ip, addr, a[0].Ttl, a[0].DnsIp))
 	}
 
 	var localDnsText = localDnsSb.String()
@@ -119,6 +119,7 @@ func WaitExit() {
 type A struct {
 	Domain string
 	Ip     string
+	DnsIp  string
 	Ttl    int
 }
 
@@ -146,14 +147,15 @@ func dnsQuery(ch chan A, wg *sync.WaitGroup, domain string, dnsIp string) {
 		record, isType := ans.(*dns.A)
 		if isType {
 			ip := record.A.String()
-			fmt.Println("ping: ", domain, ip)
+			fmt.Printf("%15s : %15s %s\n", dnsIp, ip, domain)
 			_, _, avg := pingTtl(ip)
 			if avg == DefaultMaxNanoSeconds {
-				fmt.Println(domain, ip, "no response")
+				fmt.Printf("%15s : %s %15s %s\n", dnsIp, "no response", domain, ip)
 				return
 			}
 			ch <- A{
 				Ip:     ip,
+				DnsIp:  dnsIp,
 				Ttl:    avg,
 				Domain: domain,
 			}
